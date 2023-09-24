@@ -1,8 +1,7 @@
 import pandas as pd
+from model import DelayModel
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
-from . import model
-from model import DelayModel
 
 
 app = FastAPI()
