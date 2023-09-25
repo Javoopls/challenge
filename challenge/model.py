@@ -119,7 +119,7 @@ class DelayModel:
             'delay'
         ]
 
-         # Agregar print para depuración
+         # Add print for debugging
         print("Número de columnas antes de la selección de características:", features.shape[1])
         
         features = pd.DataFrame(features[top_10_features])
@@ -127,7 +127,7 @@ class DelayModel:
 
         print(features.columns)
 
-        # Agregar print para depuración
+        # Add print for debugging
         print("Número de columnas después de la selección de características:", features.shape[1])
 
         if target_column is not None:
@@ -176,10 +176,10 @@ class DelayModel:
         if self._model is None:
             raise ValueError("The model has not been trained. Please call the 'fit' method first.")
     
-        # Realiza la predicción utilizando el modelo entrenado
+        # Make the prediction using the trained model
         proba_predictions = self._model.predict(features)
 
         predictions = [0 if proba[0] > threshold else 1 for proba in proba_predictions]
 
-        # Devuelve las predicciones como una lista de enteros (0 o 1)
+        # Returns predictions as a list of integers (0 or 1)
         return predictions.tolist()

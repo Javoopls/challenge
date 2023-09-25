@@ -6,7 +6,7 @@ from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
-# Define una clase Pydantic para recibir los datos de entrada en la solicitud POST
+# Defines a Pydantic class to receive the input data in the POST request
 class FlightData(BaseModel):
     FechaI: str
     VloI: str
@@ -28,10 +28,10 @@ async def get_health() -> dict:
 @app.post("/predict", status_code=200)
 async def post_predict(data: FlightData) -> dict:
     try:
-        # Crea una instancia del modelo
+        # Create an instance of the model
         model = DelayModel()
 
-        # Preprocesa los datos para la predicción
+        # Preprocess data for prediction
         input_data = pd.DataFrame([{
             'Fecha-I': data.FechaI,
             'Vlo-I': data.VloI,
@@ -46,10 +46,10 @@ async def post_predict(data: FlightData) -> dict:
         }])
         features = model.preprocess(input_data)
 
-        # Realiza la predicción utilizando el modelo
+        # Make the prediction using the model
         predictions = model.predict(features)
 
-        # Devuelve la predicción como resultado
+        # Returns the prediction as a result
         return {"prediction": predictions[0]}
 
     except Exception as e:

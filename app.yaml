@@ -8,7 +8,7 @@ env_variables:
 instance_class: F2  
 
 automatic_scaling:
-  target_cpu_utilization: 0.65  # Ajusta según tus necesidades
+  target_cpu_utilization: 0.65
 
 handlers:
 - url: /.*
