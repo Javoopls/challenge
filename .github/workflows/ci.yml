@@ -1,0 +1,38 @@
+name: 'Continuous Integration'
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: |
+          pip install -r C:\Users\Javoo\Desktop\challenge\requirements.txt
+          pip install -r C:\Users\Javoo\Desktop\challenge\requirements-dev.txt
+          pip install -r C:\Users\Javoo\Desktop\challenge\requirements-test.txt
+
+      - name: Run model tests
+        run: pytest --cov=challenge C:\Users\Javoo\Desktop\challenge\tests\model\test_model.py
+
+      - name: Run API tests
+        run: pytest --cov=challenge C:\Users\Javoo\Desktop\challenge\tests\api\test_api.py
+
+      - name: Run API stress tests
+        run: locust -f C:\Users\Javoo\Desktop\challenge\tests\stress\api_stress.py --print-stats --html stress-test-report.html --run-time 60s --headless --users 100 --spawn-rate 1
+

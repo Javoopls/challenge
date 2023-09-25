@@ -1,0 +1,36 @@
+name: 'Continuous Delivery'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+          pip install -r requirements-test.txt
+
+      - name: Deploy to Google App Engine
+        env:
+          GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+          GOOGLE_CLOUD_KEYFILE_JSON: ${{ secrets.GOOGLE_CLOUD_KEYFILE_JSON }}
+        run: |
+          gcloud auth activate-service-account --key-file=<(echo "$GOOGLE_CLOUD_KEYFILE_JSON")
+          gcloud app deploy C:\Users\Javoo\Desktop\challenge\challenge\app.yaml --quiet
+          gcloud app deploy C:\Users\Javoo\Desktop\challenge\challenge\model.py --quiet
+          gcloud app deploy C:\Users\Javoo\Desktop\challenge\challenge\api.py --quiet
+
